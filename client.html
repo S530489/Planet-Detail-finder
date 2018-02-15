@@ -1,0 +1,36 @@
+
+<html>
+<head>
+	<title>My Planets</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+	<script type = "text/javascript">
+	function GetPlanetDetails(){
+		$.ajax({
+			url : "http://localhost/planet/server.php",
+			type : "POST",
+			data : "Planet_Name="+$('#Planet_Name').val(),
+			dataType : "json",
+			success : function(response, status, http){
+				//console.log("response is "+ response);
+				var new_suggestions = '';
+				$.each(response, function(index,item){
+					//console.log(item);
+					new_suggestions+=item.Name +"   "+ item.Order_No + "   " +item.No_of_days+ "<br/>";
+				})
+				$('#suggestion').html(new_suggestions);
+			},
+			error : function(http, status, error){
+				alert("Some error occured "+ error);
+			},
+		})
+	}
+	</script>
+</head>
+<body>
+	<div>Search Box : <input type="text" id="Planet_Name" name="Planet_Name" onkeyup="GetPlanetDetails()" /></div>
+	<div>
+		<p style="color:red;"> Suggestions </p>
+		<p id="suggestion"> See your suggestions here </p>
+	</div>
+</body>
+</html>
